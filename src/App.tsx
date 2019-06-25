@@ -1,24 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {FunctionComponent, useState} from 'react';
+import SubmitButton from './Button';
+
 import './App.css';
 
-const App: React.FC = () => {
+interface IFields {
+  firstname: string;
+  lastname: string;
+}
+
+const App: FunctionComponent<{}> = () => {
+  const [fields, setFields] = useState<IFields>({
+    firstname: '',
+    lastname: ''
+  });
+
+  const handleFirstNameChange = (event: React.ChangeEvent<HTMLInputElement>) =>
+    setFields({ ...fields, firstname: event.target.value });
+
+  const handleLastNameChange = (event: React.ChangeEvent<HTMLInputElement>) =>
+    setFields({ ...fields, lastname: event.target.value });
+
+  const handleSubmit = () => {
+    console.log('Fields', fields);
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <input type="text" value={fields.firstname} onChange={handleFirstNameChange} />
+      <input type="text" value={fields.lastname} onChange={handleLastNameChange}></input>
+      <SubmitButton text="Submit" onClick={handleSubmit} />
     </div>
   );
 }
